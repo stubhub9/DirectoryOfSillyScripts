@@ -47,6 +47,47 @@ class Number(Validator):
             raise ValueError(f'Expected {value!r} to be no more than {self.maxvalue!r}')
         
         
+class String(Validator):
+
+    def __init__(self, minsize=None, maxsize=None, predicate=None):
+        self.minsize = minsize
+        self.maxsize = maxsize
+        self.predicate = predicate
+
+    def validate(self, value):
+        if not isinstance(value, str):
+            raise TypeError(f'Expected {value!r} to be a str')
+        
+        if self.minsize is not None and len(value) < self.minsize:
+            raise ValueError(
+                f'Expected {value!r} to be as big as {self.minsize!r}'
+            )
+            
+        if self.maxsize is not None and len(value) > self.maxsize:
+            raise ValueError(
+                f'Expected {value!r} to be no more than {self.minsize!r}'
+            )
+        
+        if self.predicate is not None and not self.predicate(value):
+            raise ValueError(
+                f'Expected {self.predicate!r} to be true for {value!r}'
+            )
+
+#  Practical app 
+class Component:
+
+    name = String(minsize=3, maxsize=10, predicate=str.isupper)
+    kind = OneOf('wood', 'metal', 'plastic')
+    quantity = Number(minvalue=0)
+
+    def __init__(self, name, kind, quantity):
+        self.name = name
+        self.kind = kind
+        self.quantity = quantity
+
+
+#  >>>Component('WIDGET', 'metal', 5)
+
 
 
 
