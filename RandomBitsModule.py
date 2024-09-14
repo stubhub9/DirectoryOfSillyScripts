@@ -1,4 +1,4 @@
-#!/usr/bin/python13
+#!/usr/bin/python3
 # Broken hashbang on line 2. # !/usr/env python3
 
 #  Makes the script an .exe on BSD Unix [if \n]; just a comment otherwise.
